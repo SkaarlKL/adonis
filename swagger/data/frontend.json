@@ -1,0 +1,551 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "360 Imprimir - Frontend API Docs",
+        "description": "API Documentation for Frontend integration with Middleware",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://130.211.90.160:3000/api/v1",
+            "description": "GuiggaBE QA"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        },
+        "schemas": {
+            "registerPayload": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "klac.dev@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "Asdf@1234"
+                    }
+                }
+            },
+            "authPayload": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "klac.dev@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "Asdf@1234"
+                    }
+                }
+            },
+            "registerResponse": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "example": "klac.dev@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "$2a$10$8Mz.nqlkvI3YrEIWiEq45.fAEnZlhCUIxJ6WMK7V3aumriUgg2Vvq"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "example": "2023-01-27 20:00:23"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "example": "2023-01-27 20:00:23"
+                    },
+                    "id": {
+                        "type": "number",
+                        "example": 1
+                    }
+                }
+            },
+            "authResponse": {
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "example": "bearer"
+                    },
+                    "token": {
+                        "type": "string",
+                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsImlhdCI6MTY3NDg0OTk4N30.Z5qVVfEnHYPZnBc2TsTd60-CNia6AFfClL8Ee-huFrg"
+                    },
+                    "refreshToken": {
+                        "type": "string",
+                        "example": ""
+                    }
+                }
+            },
+            "allEntries": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "example": {
+                        "id": 1,
+                        "user_id": 1,
+                        "name": "Guiga Mono Nunu",
+                        "server": "BR",
+                        "lane": "Jungle",
+                        "phone": "+65 913026189",
+                        "created_at": "2023-01-27 20:12:31",
+                        "updated_at": "2023-01-27 20:12:31"
+                    }
+                }
+            },
+            "createOneEntry": {
+                "type": "object",
+                "properties": {
+                        "id": {
+                            "type": "number",
+                            "example": 1
+                        },
+                        "user_id": {
+                            "type": "number",
+                            "example": 1
+                        },
+                        "name": {
+                            "type": "string",
+                            "example": "Rnee"
+                        },
+                        "server": {
+                            "type": "string",
+                            "example": "EUW1"
+                        },
+                        "lane": {
+                            "type": "string",
+                            "example": "Top"
+                        },
+                        "phone": {
+                            "type": "string",
+                            "example": "+351 913025139"
+                        }
+                }
+            },
+            "oneEntry": {
+                "type": "object",
+                "properties": {
+                        "id": {
+                            "type": "number"
+                        },
+                        "user_id": {
+                            "type": "number"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "server": {
+                            "type": "string"
+                        },
+                        "lane": {
+                            "type": "string"
+                        },
+                        "phone": {
+                            "type": "string"
+                        },
+                        "created_at": {
+                            "type": "string"
+                        },
+                        "updated_at": {
+                            "type": "string"
+                        }
+                }
+            }
+        }
+    },
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Create a new user",
+                "description": "Returns object with created user data",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/registerPayload"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/registerResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Invalid arguments",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Need authentication",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/authenticate": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Authenticate user",
+                "description": "Returns bearer token information",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/authPayload"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/authResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Invalid arguments",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Need authentication",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/entries": {
+            "get": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get all entries",
+                "description": "Returns entries list",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/allEntries"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Invalid arguments",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Need authentication",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Create a new entry",
+                "description": "Returns created entry",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createOneEntry"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/oneEntry"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Invalid arguments",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Need authentication",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/entries/{id}": {
+            "get": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get one entry",
+                "description": "Returns one entry",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Entry identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/oneEntry"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Invalid arguments",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Need authentication",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Remove one entry",
+                "description": "Returns true or error",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "Entry identifier",
+                        "required": true,
+                        "schema": {
+                            "type": "number"
+                        },
+                        "example": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "example": true
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Invalid arguments",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Need authentication",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Updates an entry",
+                "description": "Returns requested entry",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/createOneEntry"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/oneEntry"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request: Invalid arguments",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: Need authentication",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

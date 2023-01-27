@@ -21,24 +21,29 @@ const Route = use('Route')
 Route.get('/api/v1/', () => {
     return {
         'POST api/v1/auth/authenticate': {
-            'email': '',
-            'password': ''
+            payload: {
+                'email': '',
+                'password': ''
+            }
         },
         'POST api/v1/auth/register': {
-            'email': '',
-            'password': ''
+            desc: 'CRIA UM NOVO USER',
+            payload: {
+                'email': '',
+                'password': ''
+            }
         },
-        'GET api/v1/users': {
-            desc: 'RETORNA LISTA DE TODOS USERS'
+        'GET api/v1/entries': {
+            desc: 'RETORNA LISTA DE TODAS ENTRIES'
         },
-        'GET api/v1/users/:id': {
-            desc: 'RETORNA INFO DE UM USER'
+        'GET api/v1/entries/:id': {
+            desc: 'RETORNA INFO DE UMA ENTRY'
         },
-        'DELETE api/v1/users/:id': {
-            desc: 'REMOVE UM USER'
+        'DELETE api/v1/entries/:id': {
+            desc: 'REMOVE UMA ENTRY'
         },
-        'POST api/v1/users': {
-            desc: 'CRIA NOVO USER',
+        'POST api/v1/entries': {
+            desc: 'CRIA NOVA ENTRY',
             payload: {
                 "name": "Guiga Mono Nunu",
                 "phone": "+65 913026189",
@@ -47,8 +52,8 @@ Route.get('/api/v1/', () => {
                 "user_id": 1
             }
         },
-        'PATCH api/v1/users/:id': {
-            desc: 'ATUALIZA DADOS DO USER',
+        'PATCH api/v1/entries/:id': {
+            desc: 'ATUALIZA DADOS DE UMA ENTRY',
             payload: {
                 "name": "Guiga Mono Nunu",
                 "phone": "+65 913026189",
@@ -84,4 +89,4 @@ Route.group(() => {
   
     // Route for deleting a user
     Route.delete('/:id', 'UserController.destroy')
-  }).prefix('api/v1/users').middleware('auth')
+  }).prefix('api/v1/entries').middleware('auth')
