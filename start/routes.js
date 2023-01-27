@@ -18,7 +18,7 @@ const axios = require('axios')
 
 const Route = use('Route')
 
-Route.get('/', () => {
+Route.get('/api/v1/', () => {
     return {
         'POST api/v1/auth/authenticate': {
             'email': '',
@@ -34,8 +34,21 @@ Route.get('/', () => {
         'GET api/v1/users/:id': {
             desc: 'RETORNA INFO DE UM USER'
         },
+        'DELETE api/v1/users/:id': {
+            desc: 'REMOVE UM USER'
+        },
         'POST api/v1/users': {
             desc: 'CRIA NOVO USER',
+            payload: {
+                "name": "Guiga Mono Nunu",
+                "phone": "+65 913026189",
+                "lane": "Jungle",
+                "server": "BR",
+                "user_id": 1
+            }
+        },
+        'PATCH api/v1/users/:id': {
+            desc: 'ATUALIZA DADOS DO USER',
             payload: {
                 "name": "Guiga Mono Nunu",
                 "phone": "+65 913026189",
