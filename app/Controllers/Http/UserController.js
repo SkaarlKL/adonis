@@ -18,7 +18,7 @@ class UserController {
             const entry = await Entry.query().where('id', params.id).firstOrFail()
             return entry;
         } catch(error) {
-            response.status(error.status || 500).send(error.message)
+            response.status(error.status || 500).send(error.message.includes('E_MISSING_DATABASE_ROW') ? 'NOT FOUND' : error.message)
         }
     }
     async store ({ request, response }) {
@@ -43,7 +43,7 @@ class UserController {
             entry.save();
             return entry;
         } catch(error) {
-            response.status(error.status || 500).send(error.message)
+            response.status(error.status || 500).send(error.message.includes('E_MISSING_DATABASE_ROW') ? 'NOT FOUND' : error.message)
         }
     }
     async destroy ({ params, request, response }) {
@@ -51,7 +51,7 @@ class UserController {
             const entry = await Entry.query().where('id', params.id).firstOrFail()
             return await entry.delete()
         } catch(error) {
-            response.status(error.status || 500).send(error.message)
+            response.status(error.status || 500).send(error.message.includes('E_MISSING_DATABASE_ROW') ? 'NOT FOUND' : error.message)
         }
     }
 }
